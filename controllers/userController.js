@@ -37,3 +37,24 @@ export const updateUserController = async (req, res, next) => {
     });
   }
 };
+export const getUsersController = async (req, res, next) => {
+  try {
+    const {info}=req.params;
+    const results = await userModel.find({
+        $or: [
+          { name: { $regex: info, $options: "i" } },
+          { lasName: { $regex: info, $options: "i" } },
+          { email: { $regex: info, $options: "i" } },
+          { phone: { $regex: info, $options: "i" } },
+        ],
+      });
+      res.json(results);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      message: "Error WHile Update profile",
+      error,
+    });
+  }
+};
