@@ -58,3 +58,24 @@ export const getUsersController = async (req, res, next) => {
     });
   }
 };
+
+export const updateRoleController = async (req, res, next) => {
+  try {
+    const {id}=req.params;
+    await userModel.findByIdAndUpdate(id,{
+       role:1
+      });
+      res.status(200).send({
+        success: true,
+        message: "Role Updated Successfully",
+      
+      });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      message: "Error WHile Updating Role",
+      error,
+    });
+  }
+};
