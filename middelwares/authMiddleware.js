@@ -21,6 +21,27 @@ export const userAuth = async (req, res, next) => {
   
   }
 };
+//user acceess
+export const isUser = async (req, res, next) => {
+  try {
+    const user = await userModel.findById(req.user._id);
+    if (user.role !== 0) {
+      return res.status(401).send({
+        success: false,
+        message: "UnAuthorized Access",
+      });
+    } else {
+      next();
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(401).send({
+      success: false,
+      error,
+      message: "Error in user middleware",
+    });
+  }
+};
 //admin acceess
 export const isAdmin = async (req, res, next) => {
   try {
@@ -38,7 +59,28 @@ export const isAdmin = async (req, res, next) => {
     res.status(401).send({
       success: false,
       error,
-      message: "Error in admin middelware",
+      message: "Error in admin middleware",
+    });
+  }
+};
+//author acceess
+export const isAuthor= async (req, res, next) => {
+  try {
+    const user = await userModel.findById(req.user._id);
+    if (user.role !== 11) {
+      return res.status(401).send({
+        success: false,
+        message: "UnAuthorized Access",
+      });
+    } else {
+      next();
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(401).send({
+      success: false,
+      error,
+      message: "Error in author middelware",
     });
   }
 };
