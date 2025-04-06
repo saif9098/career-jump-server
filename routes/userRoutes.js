@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getUsersController,
+  updateRoleController,
   updateUserController,
 } from "../controllers/userController.js";
 import {userAuth,isAdmin,isAuthor, isUser} from "../middelwares/authMiddleware.js";
@@ -28,5 +29,6 @@ router.get("/users/:info",  getUsersController);
 
 // UPDATE USER || PUT
 router.put("/update-user", userAuth, updateUserController);
+router.put("/update-role/:id", userAuth,isAuthor, updateRoleController);
 
 export default router;
